@@ -11,6 +11,7 @@ export async function getUserQuantity(request, response){
   }
 }
 
+
 export async function createUser(request, response){
   try {
     const data = request.body;
@@ -21,6 +22,8 @@ export async function createUser(request, response){
     response.status(400).send({error: error.message});
   }
 }
+
+
 export async function deleteUser(request, response){
   try{
     const password = request.body;
@@ -43,15 +46,67 @@ export async function deleteUser(request, response){
 
 export async function updateUser(request, response){
   try{
-    const {name, surname, password, email} = request.body;
+    const { name, surname, password, email } = request.body;
+    const user = await User.findOne({ where: {email: email} });
+    
+    if(!user){
 
-    const user = await UserActivation.findOne({where: {email: email}});
+      await user.update({name, surname, password, email });
+      return response.status(200).send({user: user});
 
-    // TODO: update the data of the user that is receive, and see if the other data is equals, so when can confirm the authenticity of the datga
+    }else{
+      return response.status(400).send({message: "User was not found in the database"});
+    }
+
   }catch(error){
     return response.status(400).send({error: error.message});
   }
 }
+
+export async function getUserById(request, response) {
+  try{
+
+
+    return response.status(200).send("user finded");
+
+  }catch(error){
+    return response.status(400).send({error: error.message});
+  }
+}
+
+
+export async function updateUserById(request, response){
+
+
+  try{
+
+
+    return response.status(200).send("Usuario atualziado dentro do banco de dados");
+
+
+  }catch(error){
+    return response.status(400).send({error: error.message})
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

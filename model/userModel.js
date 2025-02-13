@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "./modelConfig.js";
+import bcrypt from "bcrypt";
 
 const User = sequelize.define("User", {
   id: {type: DataTypes.UUID, defaultValue:DataTypes.UUIDV4, allowNull: false, primaryKey: true},
@@ -7,20 +8,15 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING(50), 
     allowNull: false,
     get(){
-      const rawValue = this.dataValue("name");
+      const rawValue = this.getDataValue("name");
       return `name: ${rawValue}` ? rawValue : null;        
     }
-
   },
   surname: {type:  DataTypes.STRING(200), allowNull: true}, 
   email: {type: DataTypes.STRING, allowNull: false, unique: true},
   password: {
     type: DataTypes.STRING(50), 
     allowNull: false,
-    set(value){
-      // TODO: Create the correct way to add the password, with hash to be save and be easy to dehash when necessary
-      this.setDataValue("password", )
-    }
   },
   repr: {
     type: DataTypes.VIRTUAL,
@@ -28,6 +24,11 @@ const User = sequelize.define("User", {
       return `<${this.name} ${this.surname}: ${this.email}>`;
     }
   }
+});
+
+User.beforeCreate(async (user) => {
+  const salts = 15;
+  user.password = await bcrypt.hash(user.password, salts);
 });
 
 export default User;

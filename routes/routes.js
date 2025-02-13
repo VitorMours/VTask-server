@@ -1,6 +1,6 @@
 import { createTask, getAllTasks, getTask, deleteTask, updateTask } from "../controller/taskController.js"
 import { getSignup, postSignup, postLogin } from "../controller/authController.js";
-import { getUserQuantity, userCreate } from "../controller/userController.js";
+import { getUserQuantity, getUserById, createUser, deleteUser, updateUser } from "../controller/userController.js";
 
 const routes = (app) => {
   
@@ -12,15 +12,10 @@ const routes = (app) => {
   // User routes 
   app.post("/user", createUser);
   app.delete("/user/delete", deleteUser);
-
- 
- 
-
-  app.get("/user/:id/update", getuserById);
-  app.post("/user/:id/update", updateUserById);
+  app.put("/user/update", updateUser); 
   
   app.get("/user/quantity", getUserQuantity);
-
+  app.get("/user/:id", getUserById);
 
   // Task routes
   app.post("/task/create" , createTask)
