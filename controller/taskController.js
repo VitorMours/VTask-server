@@ -18,15 +18,18 @@ export async function createTask(request, response){
     response.status(400).send({error: error.message})
   }
 }
+
+
 export async function getTaskQuantity(request, response){
   try{
     const taskQuantity = await Task.count();
-    return response.status(200).send({"taskQuantity": taskQuantity});
+    return response.status(200).send({"task_quantity": taskQuantity});
 
   }catch(error){
     return response.status(400).send({error: error.message});
   }
 }
+
 
 export async function getAllTasks(request, response){
   try{

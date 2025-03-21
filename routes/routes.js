@@ -1,26 +1,12 @@
-import { createTask, getAllTasks, getTask, deleteTask, updateTask } from "../controller/taskController.js"
-import { getSignup, postSignup, postLogin } from "../controller/authController.js";
-import { getUserQuantity, getUserById, createUser, deleteUser, updateUser } from "../controller/userController.js";
+import userRoutes from "./userRoutes.js";
 
-const routes = (app) => {
-  
-  // Global routes 
-  app.get("/", getAllTasks);
-  app.post("/signup", postSignup);
-  app.post("/login", postLogin);
+const implement_routes = (app) => {
 
-  // User routes 
-  app.post("/user", createUser);
-  app.delete("/user/delete", deleteUser);
-  app.put("/user/update", updateUser); 
-  
-  app.get("/user/quantity", getUserQuantity);
-  app.get("/user/:id", getUserById);
+  // Global routes
+  // app.use("/", globalRoutes);
 
-  // Task routes
-  app.post("/task/create" , createTask)
-  app.get("/task/:id", getTask);
-  app.delete("task/:id", deleteTask);
+  // User logged routes
+  app.use("/user", userRoutes);
 }
 
-export default routes;
+export default implement_routes;
